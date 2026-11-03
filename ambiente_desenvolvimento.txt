@@ -1,0 +1,104 @@
+# AMBIENTE DE DESENVOLVIMENTO E SERVIDOR LOCAL - LARAVEL
+
+Este documento descreve os comandos, parâmetros e procedimentos necessários para preparar e executar o ambiente de desenvolvimento local, conforme detalhado no Capítulo 3 da apostila.
+
+======================================================================
+1. INSTALAÇÃO CLÁSSICA (COMPOSER E LARAVEL CLI)
+======================================================================
+
+1.1. Instalação do instalador global do Laravel:
+----------------------------------------------------------------------
+Comando:
+composer global require laravel/installer
+
+O que cada parte faz:
+- composer: Chama o programa gerenciador de pacotes e dependências do PHP.
+- global: Avisa ao Composer que a ferramenta deve ser instalada globalmente, ficando acessível pelo terminal a partir de qualquer diretório do computador, e não apenas na pasta atual.
+- require: Comando/ordem que solicita a instalação/download de um pacote e suas dependências.
+- laravel/installer: O nome do pacote oficial do Laravel que fornece a ferramenta CLI para criar novos projetos.
+
+
+1.2. Criação de um novo projeto Laravel:
+----------------------------------------------------------------------
+Comando:
+laravel new agencia-turismo
+
+O que cada parte faz:
+- laravel new: Aciona o assistente do instalador global do Laravel baixado na etapa anterior.
+- agencia-turismo: Nome do diretório/projeto a ser criado. O utilitário faz o download de toda a estrutura padronizada do framework Laravel, configura o ambiente básico (.env) e instala as dependências iniciais.
+
+
+1.3. Navegação até a pasta do projeto:
+----------------------------------------------------------------------
+Comando:
+cd agencia-turismo
+
+O que cada parte faz:
+- cd: "Change Directory" (mudar diretório). Altera o diretório ativo do terminal para a pasta recém-criada "agencia-turismo", onde estão os arquivos do projeto.
+
+
+1.4. Execução do servidor web embutido:
+----------------------------------------------------------------------
+Comando:
+php artisan serve
+
+O que cada parte faz:
+- php: Invoca o interpretador da linguagem PHP instalado na máquina física.
+- artisan: Invoca a interface de linha de comando interna do Laravel (Artisan CLI), responsável pela automação de tarefas do framework.
+- serve: Subcomando do Artisan que inicializa o servidor de desenvolvimento local leve embutido do PHP (por padrão em http://127.0.0.1:8000), dispensando configurações de Apache ou Nginx na máquina local.
+
+
+======================================================================
+2. PADRÃO DE MERCADO: LARAVEL SAIL E DOCKER
+======================================================================
+
+Pré-requisito: Docker Desktop instalado e em execução no sistema operacional.
+
+2.1. Criação do projeto via script oficial do Laravel:
+----------------------------------------------------------------------
+Comando:
+curl -s https://laravel.build/agencia-turismo | bash
+
+O que cada parte faz:
+- curl: Ferramenta de linha de comando utilizada para transferir dados e fazer requisições a servidores via URLs.
+- -s: Flag silenciosa ("silent"), desativa barras de progresso e saídas informativas irrelevantes.
+- https://laravel.build/agencia-turismo: Endpoint oficial do Laravel que compila e devolve dinamicamente um script bash configurado para gerar a aplicação "agencia-turismo" com contêineres Docker pré-configurados.
+- |: Pipe do shell; canaliza a saída do comando curl diretamente para a entrada do próximo comando.
+- bash: Executa o script baixado diretamente no terminal, criando a estrutura da aplicação e baixando o núcleo e as dependências via contêineres temporários, sem exigir Composer na máquina física.
+
+
+2.2. Navegação até o projeto:
+----------------------------------------------------------------------
+Comando:
+cd agencia-turismo
+
+O que cada parte faz:
+- cd: Muda o diretório atual de trabalho do terminal para a pasta da aplicação recém-criada "agencia-turismo".
+
+
+2.3. Inicialização dos serviços e contêineres Docker via Laravel Sail:
+----------------------------------------------------------------------
+Comando:
+./vendor/bin/sail up
+
+O que cada parte faz:
+- ./: Indica para procurar o executável a partir do diretório atual.
+- vendor/bin/sail: Caminho relativo do binário do Laravel Sail (script CLI do framework para gerenciar o Docker Compose).
+- up: Instrução correspondente ao "docker compose up", instruindo o Docker a construir as imagens necessárias e subir/ligar os contêineres isolados (como PHP, MySQL, Redis) em segundo plano ou em console ativo, disponibilizando o sistema no endereço padrão http://localhost.
+
+
+======================================================================
+3. COMANDOS DE VALIDAÇÃO DE AMBIENTE (TERMINAL)
+======================================================================
+
+3.1. Verificação da versão do interpretador PHP:
+----------------------------------------------------------------------
+Comando:
+php -v
+O que faz: Exibe a versão ativa do PHP no sistema operacional (deve ser 8.0 ou superior para o Laravel moderno).
+
+3.2. Verificação da versão do Composer:
+----------------------------------------------------------------------
+Comando:
+composer -v
+O que faz: Exibe a versão instalada do gerenciador de pacotes Composer e seus comandos disponíveis.
